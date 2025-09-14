@@ -1,6 +1,11 @@
-from django.urls import path
-from .views import ClassifyAPIView
+from django.urls import path, include
+from .views import ClassifyAPIView, DetectObjectsView
+from .metrics_views import FrontendMetricsView
 
 urlpatterns = [
-    path('classify/', ClassifyAPIView.as_view(), name='api-classify'),
+    path('classify/', ClassifyAPIView.as_view(), name='classify'),
+    path('classify/<int:image_id>/', ClassifyAPIView.as_view(), name='delete_classification'),
+    path('detect/', DetectObjectsView.as_view(), name='detect'),
+    path('detect/<int:image_id>/', DetectObjectsView.as_view(), name='delete_detection'),
+    path('frontend-metrics/', FrontendMetricsView.as_view(), name='frontend_metrics'),
 ]

@@ -8,4 +8,7 @@ class ClassificationConfig(AppConfig):
     def ready(self):
         # Инициализируем классификатор при запуске приложения
         self.classifier = Classifier()
-        print("Классификатор инициализирован!")
+        if self.classifier.initialized:
+            print("Классификатор успешно инициализирован")
+        else:
+            print("Не удалось инициализировать классификатор")

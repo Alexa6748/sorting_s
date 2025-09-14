@@ -1,0 +1,257 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Sorting System Dashboard",
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0,
+    "refresh": "25s",
+    "rows": [
+      {
+        "title": "Backend Overview",
+        "panels": [
+          {
+            "id": 1,
+            "type": "graph",
+            "title": "Classification Requests Rate",
+            "datasource": null,
+            "targets": [
+              {
+                "expr": "rate(sorting_system_classification_requests_total[5m])",
+                "legendFormat": "{{status}}",
+                "refId": "A"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": "Requests/sec"
+              },
+              {
+                "format": "short"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "type": "graph",
+            "title": "Detection Requests Rate",
+            "datasource": null,
+            "targets": [
+              {
+                "expr": "rate(sorting_system_detection_requests_total[5m])",
+                "legendFormat": "{{status}}",
+                "refId": "A"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": "Requests/sec"
+              },
+              {
+                "format": "short"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Processing Performance",
+        "panels": [
+          {
+            "id": 3,
+            "type": "graph",
+            "title": "Classification Processing Time",
+            "datasource": null,
+            "targets": [
+              {
+                "expr": "rate(sorting_system_classification_processing_seconds_sum[5m]) / rate(sorting_system_classification_processing_seconds_count[5m])",
+                "legendFormat": "Average",
+                "refId": "A"
+              },
+              {
+                "expr": "sorting_system_classification_processing_seconds{quantile=\"0.5\"}",
+                "legendFormat": "50th percentile",
+                "refId": "B"
+              },
+              {
+                "expr": "sorting_system_classification_processing_seconds{quantile=\"0.95\"}",
+                "legendFormat": "95th percentile",
+                "refId": "C"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            },
+            "yaxes": [
+              {
+                "format": "s",
+                "label": "Time"
+              },
+              {
+                "format": "short"
+              }
+            ]
+          },
+          {
+            "id": 4,
+            "type": "graph",
+            "title": "Detection Processing Time",
+            "datasource": null,
+            "targets": [
+              {
+                "expr": "rate(sorting_system_detection_processing_seconds_sum[5m]) / rate(sorting_system_detection_processing_seconds_count[5m])",
+                "legendFormat": "Average",
+                "refId": "A"
+              },
+              {
+                "expr": "sorting_system_detection_processing_seconds{quantile=\"0.5\"}",
+                "legendFormat": "50th percentile",
+                "refId": "B"
+              },
+              {
+                "expr": "sorting_system_detection_processing_seconds{quantile=\"0.95\"}",
+                "legendFormat": "95th percentile",
+                "refId": "C"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            },
+            "yaxes": [
+              {
+                "format": "s",
+                "label": "Time"
+              },
+              {
+                "format": "short"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "System Load",
+        "panels": [
+          {
+            "id": 5,
+            "type": "graph",
+            "title": "Currently Processing",
+            "datasource": null,
+            "targets": [
+              {
+                "expr": "sorting_system_currently_processing_classifications",
+                "legendFormat": "Classifications",
+                "refId": "A"
+              },
+              {
+                "expr": "sorting_system_currently_processing_detections",
+                "legendFormat": "Detections",
+                "refId": "B"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": "Count"
+              },
+              {
+                "format": "short"
+              }
+            ]
+          },
+          {
+            "id": 6,
+            "type": "graph",
+            "title": "Model Inference Rate",
+            "datasource": null,
+            "targets": [
+              {
+                "expr": "rate(sorting_system_model_inference_total[5m])",
+                "legendFormat": "{{model_type}}",
+                "refId": "A"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": "Inferences/sec"
+              },
+              {
+                "format": "short"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "HTTP Metrics",
+        "panels": [
+          {
+            "id": 7,
+            "type": "graph",
+            "title": "Django HTTP Requests",
+            "datasource": null,
+            "targets": [
+              {
+                "expr": "rate(django_http_requests_total_by_view_transport_method[5m])",
+                "legendFormat": "{{view}} {{method}}",
+                "refId": "A"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": "Requests/sec"
+              },
+              {
+                "format": "short"
+              }
+            ]
+          },
+          {
+            "id": 8,
+            "type": "graph",
+            "title": "Django HTTP Response Times",
+            "datasource": null,
+            "targets": [
+              {
+                "expr": "rate(django_http_requests_latency_seconds_by_view_method_sum[5m]) / rate(django_http_requests_latency_seconds_by_view_method_count[5m])",
+                "legendFormat": "{{view}} {{method}}",
+                "refId": "A"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            },
+            "yaxes": [
+              {
+                "format": "s",
+                "label": "Time"
+              },
+              {
+                "format": "short"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

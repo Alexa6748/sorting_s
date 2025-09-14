@@ -32,7 +32,7 @@ class Detector:
                 
                 detections.append({
                     'box': [x1, y1, x2, y2],
-                    'class': class_name,
+                    'class_name': class_name,
                     'confidence': confidence
                 })
         
@@ -42,7 +42,7 @@ class Detector:
         # Рисуем bounding boxes и подписи
         for detection in detections:
             x1, y1, x2, y2 = detection['box']
-            class_name = detection['class']
+            class_name = detection['class_name']
             confidence = detection['confidence']
             
             # Рисуем прямоугольник

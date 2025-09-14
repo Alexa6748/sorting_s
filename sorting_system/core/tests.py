@@ -1,25 +1,26 @@
-from django.test import TestCase, Client
-from django.urls import reverse
+# core/tests.py
+from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
+from .models import UploadedImage
 
+class CoreModelTests(TestCase):
+    """Test cases for core models."""
 
-class EnsembleViewTest(TestCase):
-    def test_page_accessibility(self):
-        """Тест доступности страницы загрузки изображений"""
-        client = Client()
-        url = reverse('ensemble')
-        response = client.get(url)
+    def test_uploaded_image_creation(self):
+        """Test UploadedImage model creation."""
+        # Create a simple image file
+        image_content = b"fake image content"
+        image_file = SimpleUploadedFile(
+            "test_image.jpg",
+            image_content,
+            content_type="image/jpeg"
+        )
         
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/upload.html')
-        self.assertIn('form', response.context)
+        uploaded_image = UploadedImage.objects.create(
+            image=image_file
+        )
         
-        # Проверка русского текста в шаблоне
-        self.assertContains(response, "Загрузите изображение для анализа")
-        self.assertContains(response, "Выберите изображение:")
-        self.assertContains(response, "Анализировать")
-
-        form = response.context['form']
-        self.assertEqual(form.__class__.__name__, 'ImageUploadForm')
-        self.assertIn('image', form.fields)
-        
-    
+        self.assertIsNotNone(uploaded_image.id)
+        # Check that the original filename is part of the stored filename
+        self.assertIn("test_image", str(uploaded_image))
+        self.assertIn("test_image", uploaded_image.image.name)

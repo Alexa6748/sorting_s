@@ -16,13 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from classification.views import classify_image
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('core.urls')),
     path('admin/', admin.site.urls),
-    path('classify/', include('classification.urls')),
-    path('detect/', include('detection.urls')),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('api/', include('api.urls')),
+    path('', include('django_prometheus.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

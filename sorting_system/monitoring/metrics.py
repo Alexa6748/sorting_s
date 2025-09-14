@@ -1,4 +1,46 @@
-from prometheus_client import Counter, Histogram
+import time
+from prometheus_client import Counter, Histogram, Gauge
 
-REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP Requests')
-REQUEST_LATENCY = Histogram('http_request_latency_seconds', 'Request latency')
+# Define custom metrics for the sorting system
+
+# Counters for tracking operations
+CLASSIFICATION_REQUESTS = Counter(
+    'sorting_system_classification_requests_total',
+    'Total number of classification requests',
+    ['status']
+)
+
+DETECTION_REQUESTS = Counter(
+    'sorting_system_detection_requests_total',
+    'Total number of detection requests',
+    ['status']
+)
+
+# Histograms for tracking processing time
+CLASSIFICATION_PROCESSING_TIME = Histogram(
+    'sorting_system_classification_processing_seconds',
+    'Time spent processing classification requests'
+)
+
+DETECTION_PROCESSING_TIME = Histogram(
+    'sorting_system_detection_processing_seconds',
+    'Time spent processing detection requests'
+)
+
+# Gauge for tracking system resources
+CURRENTLY_PROCESSING_CLASSIFICATIONS = Gauge(
+    'sorting_system_currently_processing_classifications',
+    'Number of classifications currently being processed'
+)
+
+CURRENTLY_PROCESSING_DETECTIONS = Gauge(
+    'sorting_system_currently_processing_detections',
+    'Number of detections currently being processed'
+)
+
+# Counter for tracking model inference
+MODEL_INFERENCE_COUNT = Counter(
+    'sorting_system_model_inference_total',
+    'Total number of model inference operations',
+    ['model_type']
+)
