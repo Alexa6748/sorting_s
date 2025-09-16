@@ -1,9 +1,6 @@
 import time
 from prometheus_client import Counter, Histogram, Gauge
 
-# Define custom metrics for the sorting system
-
-# Counters for tracking operations
 CLASSIFICATION_REQUESTS = Counter(
     'sorting_system_classification_requests_total',
     'Total number of classification requests',
@@ -16,7 +13,6 @@ DETECTION_REQUESTS = Counter(
     ['status']
 )
 
-# Histograms for tracking processing time
 CLASSIFICATION_PROCESSING_TIME = Histogram(
     'sorting_system_classification_processing_seconds',
     'Time spent processing classification requests'
@@ -27,7 +23,6 @@ DETECTION_PROCESSING_TIME = Histogram(
     'Time spent processing detection requests'
 )
 
-# Gauge for tracking system resources
 CURRENTLY_PROCESSING_CLASSIFICATIONS = Gauge(
     'sorting_system_currently_processing_classifications',
     'Number of classifications currently being processed'
@@ -38,7 +33,6 @@ CURRENTLY_PROCESSING_DETECTIONS = Gauge(
     'Number of detections currently being processed'
 )
 
-# Counter for tracking model inference
 MODEL_INFERENCE_COUNT = Counter(
     'sorting_system_model_inference_total',
     'Total number of model inference operations',
