@@ -1,1 +1,0 @@
-sorting_system/classification/weights/*.pth filter=lfs diff=lfs merge=lfs -text
