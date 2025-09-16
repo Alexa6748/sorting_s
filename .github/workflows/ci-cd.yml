@@ -111,8 +111,8 @@ jobs:
 
     - name: Deploy backend to Kubernetes
       run: |
-        kubectl set image deployment/backend backend=${{ secrets.DOCKERHUB_USERNAME }}/sorting_s:${{ github.sha }}
+        kubectl set image deployment/backend backend=${{ secrets.DOCKERHUB_USERNAME }}/sorting_s:${{ github.ref_name }}
 
     - name: Deploy frontend to Kubernetes
       run: |
-        kubectl set image deployment/frontend frontend=${{ secrets.DOCKERHUB_USERNAME }}/sorting_s_frontend:${{ github.sha }}
+        kubectl set image deployment/frontend frontend=${{ secrets.DOCKERHUB_USERNAME }}/sorting_s_frontend:${{ github.ref_name }}
