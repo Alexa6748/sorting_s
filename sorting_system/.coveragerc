@@ -8,9 +8,16 @@ omit =
     */media/*
     */config*.py
     */__pycache__/*
-    
+    */templates/*
+    */static/*
+    */admin.py
+    */apps.py
+    */models.py
+    manage.py
 
 [report]
+fail_under = 80
+precision = 2 
 omit =
     */tmp/*
     */temp/*
@@ -20,3 +27,25 @@ omit =
     */media/*
     */config*.py
     */__pycache__/*
+    */templates/*
+    */static/*
+    */admin.py
+    */apps.py
+    */models.py
+    manage.py
+
+exclude_lines =
+    pragma: no cover
+    def __str__
+    def __repr__
+    def __unicode__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    @property
+
+[html]
+directory = htmlcov
+title = Django Project Coverage Report
+
+[xml]
+output = coverage.xml
