@@ -33,34 +33,6 @@ const ClassificationUploadPage = () => {
     }
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0];
-      if (file.type.startsWith('image/')) {
-        setFile(file);
-        // Создаем URL для предварительного просмотра
-        const objectUrl = URL.createObjectURL(file);
-        setPreviewUrl(objectUrl);
-        setError('');
-        
-        // Очищаем input
-        if (fileInputRef.current) {
-          fileInputRef.current.files = e.dataTransfer.files;
-        }
-      } else {
-        setError('Пожалуйста, перетащите изображение');
-      }
-    }
-  };
-
   const handleRemoveFile = () => {
     setFile(null);
     setError('');
@@ -79,11 +51,6 @@ const ClassificationUploadPage = () => {
 
   const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (!file) {
-            setError('Пожалуйста, выберите изображение');
-            return;
-        }
         
         setLoading(true);
         setError('');
@@ -112,26 +79,7 @@ const ClassificationUploadPage = () => {
         } 
         });
     } catch (err) {
-        let errorMessage = 'Ошибка при обработке изображения';
-        
-        if (err.code === 'ECONNABORTED') {
-            errorMessage = 'Время ожидания ответа от сервера истекло. Обработка изображения занимает слишком много времени.';
-        } else if (err.response) {
-            // Сервер ответил с кодом состояния, отличным от 2xx
-            errorMessage = `Ошибка ${err.response.status}: `;
-            
-            if (err.response.data && err.response.data.error) {
-            errorMessage += err.response.data.error;
-            } else {
-            errorMessage += 'Неизвестная ошибка сервера';
-            }
-        } else if (err.request) {
-            // Запрос был сделан, но ответа не получено
-            errorMessage = 'Нет ответа от сервера. Проверьте, запущен ли бэкенд.';
-        } else {
-            // Что-то случилось при настройке запроса
-            errorMessage = `Ошибка: ${err.message}`;
-        }
+        let errorMessage = `Ошибка: ${err.message}`;
         
         setError(errorMessage);
         console.error('Classification error details:', {
@@ -149,23 +97,8 @@ const ClassificationUploadPage = () => {
     <div className="classification-upload-page">
       <h2 className="mb-4">Загрузите изображение для классификации</h2>
       
-      {error && (
-        <div className="alert alert-danger alert-dismissible fade show" role="alert">
-          {error}
-          <button 
-            type="button" 
-            className="btn-close" 
-            onClick={() => setError('')}
-            aria-label="Close"
-          ></button>
-        </div>
-      )}
+      {error && <div className="alert alert-danger">{error}</div>}
       
-      <div 
-        className="upload-container"
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-      >
         <form onSubmit={handleSubmit} className="upload-form">
           <div className="mb-4">
             <label className="form-label">Выберите изображение:</label>
@@ -187,7 +120,7 @@ const ClassificationUploadPage = () => {
               {!file ? (
                 <div>
                   <i className="bi bi-cloud-arrow-up" style={{ fontSize: '3rem', color: '#6c757d' }}></i>
-                  <p className="mt-2">Перетащите изображение сюда или нажмите для выбора</p>
+                  <p className="mt-2">Нажмите для выбора изображения</p>
                   <small className="text-muted">Поддерживаемые форматы: JPG, PNG, GIF</small>
                 </div>
               ) : (
@@ -246,7 +179,6 @@ const ClassificationUploadPage = () => {
             )}
           </button>
         </form>
-      </div>
       
       <div className="mt-4">
         <div className="alert alert-info">

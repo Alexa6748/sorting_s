@@ -22,11 +22,6 @@ const DetectionUploadPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!file) {
-      setError('Пожалуйста, выберите изображение');
-      return;
-    }
-    
     setLoading(true);
     setError('');
     
@@ -55,26 +50,7 @@ const DetectionUploadPage = () => {
         } 
       });
     } catch (err) {
-      let errorMessage = 'Ошибка при обработке изображения';
-        
-        if (err.code === 'ECONNABORTED') {
-            errorMessage = 'Время ожидания ответа от сервера истекло. Обработка изображения занимает слишком много времени.';
-        } else if (err.response) {
-            // Сервер ответил с кодом состояния, отличным от 2xx
-            errorMessage = `Ошибка ${err.response.status}: `;
-            
-            if (err.response.data && err.response.data.error) {
-            errorMessage += err.response.data.error;
-            } else {
-            errorMessage += 'Неизвестная ошибка сервера';
-            }
-        } else if (err.request) {
-            // Запрос был сделан, но ответа не получено
-            errorMessage = 'Нет ответа от сервера. Проверьте, запущен ли бэкенд.';
-        } else {
-            // Что-то случилось при настройке запроса
-            errorMessage = `Ошибка: ${err.message}`;
-        }
+      let errorMessage = `Ошибка: ${err.message}`;
         
         setError(errorMessage);
         console.error('Classification error details:', {
@@ -122,7 +98,7 @@ const DetectionUploadPage = () => {
         <button 
           type="submit" 
           className="btn btn-primary btn-lg w-100"
-          disabled={loading}
+          disabled={loading || !file}
         >
           {loading ? (
             <>
