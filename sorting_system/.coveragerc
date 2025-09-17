@@ -1,0 +1,22 @@
+[run]
+omit =
+    */tmp/*
+    */temp/*
+    */migrations/*
+    */tests.py
+    */weights/*
+    */media/*
+    */config*.py
+    */__pycache__/*
+    
+
+[report]
+omit =
+    */tmp/*
+    */temp/*
+    */migrations/*
+    */tests.py
+    */weights/*
+    */media/*
+    */config*.py
+    */__pycache__/*

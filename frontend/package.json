@@ -22,6 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "test:sonar": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter",
     "eject": "react-scripts eject",
     "serve": "node server.js"
   },
@@ -44,6 +45,42 @@
     ]
   },
   "devDependencies": {
+    "jest": "^27.5.1",
+    "jest-sonar-reporter": "^2.0.0",
     "react-scripts": "^5.0.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "src/App.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/build/",
+      "/coverage/",
+      "/public/",
+      "/src/__tests__/",
+      "/src/routes/",
+      "/src/utils/",
+      "src/index.js",
+      "src/setupTests.js",
+      "src/reportWebVitals.js",
+      ".*\\.css$",
+      ".*\\.svg$"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    },
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "clover"
+    ]
   }
 }

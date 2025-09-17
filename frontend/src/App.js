@@ -1,5 +1,5 @@
 // frontend/src/App.js
-import React, { useEffect } from 'react';
+import React from 'react';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ClassificationUploadPage from './pages/ClassificationUploadPage';
@@ -8,8 +8,6 @@ import DetectionUploadPage from './pages/DetectionUploadPage';
 import DetectionResultPage from './pages/DetectionResultPage';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import metricsSender from './utils/metricsSender';
-import './utils/apiInterceptor'; // Import the API interceptor
 
 const router = createBrowserRouter([
   {
@@ -31,16 +29,6 @@ const router = createBrowserRouter([
 });
 
 function App() {
-  useEffect(() => {
-    // Start sending metrics periodically
-    metricsSender.startSending();
-    
-    // Cleanup function to stop sending when component unmounts
-    return () => {
-      metricsSender.stopSending();
-    };
-  }, []);
-  
   return <RouterProvider router={router} />;
 }
 
