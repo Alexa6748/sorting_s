@@ -68,10 +68,14 @@ MIDDLEWARE = [
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://wastesort.ru"
+]
+
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL =True
-CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_METHODS = [
     'GET',
