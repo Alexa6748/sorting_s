@@ -27,7 +27,7 @@ class Classifier:
             self.model = timm.create_model("convnextv2_base", pretrained=False, num_classes=6)
             
             # Загрузка весов
-            state_dict = torch.load(model_path, map_location=torch.device('cpu'))
+            state_dict = torch.load(model_path, map_location=torch.device('cpu'), weights_only=True)
             self.model.load_state_dict(state_dict)
             
             # Переводим модель в режим оценки

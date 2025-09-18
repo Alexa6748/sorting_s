@@ -1,11 +1,15 @@
 FROM python:3.10-slim
 
+# Create a non-root user
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=sorting_system.settings
 
 WORKDIR /app
 
+# Install system dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         libgl1 \
@@ -16,6 +20,7 @@ RUN apt-get update \
         libxrender1 \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy and install Python dependencies
 COPY requirements-docker.txt /app/requirements.txt
 
 RUN pip install --upgrade pip \
@@ -24,10 +29,27 @@ RUN pip install --upgrade pip \
     && pip uninstall numpy -y \
     && pip install numpy==1.24.3
 
-COPY . /app/
+# Copy application files
+COPY manage.py /app/
+COPY sorting_system/ /app/sorting_system/
+COPY api/ /app/api/
+COPY classification/ /app/classification/
+COPY core/ /app/core/
+COPY detection/ /app/detection/
+COPY monitoring/ /app/monitoring/
+COPY startup.sh /app/startup.sh
+COPY .gitattributes /app/
+COPY .coveragerc /app/
+COPY pytest.ini /app/
 
-RUN mkdir -p media/uploads media/debug
+# Create media directories and set ownership
+RUN mkdir -p media/uploads media/debug \
+    && chown -R appuser:appuser /app \
+    && chmod +x /app/startup.sh
+
+# Switch to non-root user
+USER appuser
 
 EXPOSE 8000
 
-CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+CMD ["/app/startup.sh"]
