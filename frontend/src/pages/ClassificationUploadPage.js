@@ -1,6 +1,7 @@
 // frontend/src/pages/ClassificationUploadPage.js
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { handleSubmitOperation } from '../utils/deleteUtils';
 
 const ClassificationUploadPage = () => {
   const [file, setFile] = useState(null);
@@ -50,47 +51,15 @@ const ClassificationUploadPage = () => {
   };
 
   const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        setLoading(true);
-        setError('');
-        
-        try {
-        const formData = new FormData();
-        formData.append('image', file);
-        
-        const response = await fetch('/api/classify/', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include'
-        });
-        
-        if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, body: ${errorData}`);
-        }
-        
-        const data = await response.json();
-        
-        navigate('/classify/result', { 
-        state: { 
-            result: data,
-            image: URL.createObjectURL(file)
-        } 
-        });
-    } catch (err) {
-        let errorMessage = `Ошибка: ${err.message}`;
-        
-        setError(errorMessage);
-        console.error('Classification error details:', {
-            message: err.message,
-            code: err.code,
-            response: err.response?.data,
-            request: err.request
-        });
-    } finally {
-      setLoading(false);
-    }
+    handleSubmitOperation({
+      e,
+      file,
+      apiEndpoint: '/api/classify/',
+      navigate,
+      navigateTo: '/classify/result',
+      setLoading,
+      setError
+    });
   };
 
   return (

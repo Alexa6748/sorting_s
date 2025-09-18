@@ -7,11 +7,11 @@ def populate_classification_image_field(apps, schema_editor):
     """
     Populate the new image field in ClassificationResult based on the detection field
     """
-    ClassificationResult = apps.get_model('classification', 'ClassificationResult')
-    DetectionResult = apps.get_model('detection', 'DetectionResult')
+    classification_result = apps.get_model('classification', 'ClassificationResult')
+    apps.get_model('detection', 'DetectionResult')
     
     # For each classification result, set the image field based on its detection
-    for classification in ClassificationResult.objects.all():
+    for classification in classification_result.objects.all():
         if classification.detection:
             classification.image = classification.detection.image
             classification.save()
@@ -20,8 +20,8 @@ def reverse_populate_classification_image_field(apps, schema_editor):
     """
     Reverse operation - clear the image field
     """
-    ClassificationResult = apps.get_model('classification', 'ClassificationResult')
-    for classification in ClassificationResult.objects.all():
+    classification_result = apps.get_model('classification', 'ClassificationResult')
+    for classification in classification_result.objects.all():
         classification.image = None
         classification.save()
 

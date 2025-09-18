@@ -1,6 +1,7 @@
 // frontend/src/pages/ClassificationResultPage.js
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { handleDeleteOperation } from '../utils/deleteUtils';
 
 const ClassificationResultPage = () => {
   const navigate = useNavigate();
@@ -57,31 +58,16 @@ const ClassificationResultPage = () => {
 
     // Функция удаления классификации
   const handleDelete = async () => {
-      try {
-        setIsDeleting(true);
-        // Используем image_id из результата API
-        const imageId = result.image_id;
-        if (!imageId) {
-          throw new Error('ID изображения не найден в ответе API');
-        }
-
-        const response = await fetch(`/api/classify/${imageId}/`, {
-        method: 'DELETE'
-        });
-        
-        if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, body: ${errorData}`);
-        }
-
-        alert('Результаты классификации успешно удалены');
-        navigate('/classify');
-      } catch (error) {
-        console.error('Ошибка при удалении:', error);
-        alert('Ошибка при удалении результатов классификации: ' + error.message);
-      } finally {
-        setIsDeleting(false);
-      }
+    handleDeleteOperation({
+      imageId: result.image_id,
+      apiEndpoint: `/api/classify/${result.image_id}/`,
+      successMessage: 'Результаты классификации успешно удалены',
+      errorMessage: 'Ошибка при удалении результатов классификации:',
+      navigate,
+      navigateTo: '/classify',
+      setIsDeleting,
+      setError: console.error
+    });
   };
 
   // Функция пометки классификации как неправильной

@@ -1,6 +1,7 @@
 // frontend/src/pages/DetectionUploadPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { handleSubmitOperation } from '../utils/deleteUtils';
 
 const DetectionUploadPage = () => {
   const [file, setFile] = useState(null);
@@ -20,48 +21,15 @@ const DetectionUploadPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    setLoading(true);
-    setError('');
-    
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
-      
-      const response = await fetch('/api/detect/', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include'
-        });
-        
-        if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, body: ${errorData}`);
-        }
-
-      const data = await response.json();
-      
-      // Перенаправляем на страницу результатов с данными
-      navigate('/detect/results', { 
-        state: { 
-          result: data,
-          image: URL.createObjectURL(file)
-        } 
-      });
-    } catch (err) {
-      let errorMessage = `Ошибка: ${err.message}`;
-        
-        setError(errorMessage);
-        console.error('Classification error details:', {
-            message: err.message,
-            code: err.code,
-            response: err.response?.data,
-            request: err.request
-        });
-    } finally {
-      setLoading(false);
-    }
+    handleSubmitOperation({
+      e,
+      file,
+      apiEndpoint: '/api/detect/',
+      navigate,
+      navigateTo: '/detect/results',
+      setLoading,
+      setError
+    });
   };
 
   return (
