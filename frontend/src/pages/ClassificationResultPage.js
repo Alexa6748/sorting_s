@@ -23,6 +23,38 @@ const ClassificationResultPage = () => {
     return 'bg-danger';
   };
 
+  // Функция определения текста уверенности
+  const getConfidenceText = (confidence) => {
+    if (confidence > 0.7) return "Высокая уверенность";
+    if (confidence > 0.4) return "Средняя уверенность";
+    return "Низкая уверенность";
+  };
+
+  // Функция определения текста кнопки маркировки как неправильной
+  const getMarkAsWrongButtonText = (isUpdating, isWrong) => {
+    if (isUpdating) return 'Обновление...';
+    if (isWrong) return 'Помечено как неправильное';
+    return 'Пометить как неправильное';
+  };
+
+  // Функция определения иконки для кнопки маркировки как неправильной
+  const getMarkAsWrongButtonIcon = (isWrong) => {
+    if (isWrong) return 'bi-check-circle';
+    return 'bi-exclamation-triangle';
+  };
+
+  // Функция определения текста кнопки удаления
+  const getDeleteButtonText = (isDeleting) => {
+    if (isDeleting) return 'Удаление...';
+    return 'Удалить результаты';
+  };
+
+  // Функция определения класса кнопки маркировки как неправильной
+  const getMarkAsWrongButtonClass = (isWrong) => {
+    if (isWrong) return 'btn-success';
+    return 'btn-warning';
+  };
+
     // Функция удаления классификации
   const handleDelete = async () => {
       try {
@@ -134,13 +166,19 @@ const ClassificationResultPage = () => {
               <h5 className="text-muted">Уверенность определения:</h5>
               <div className="d-flex align-items-center mt-2">
                 <div className="progress w-100" style={{ height: '20px' }}>
-                  <div 
+                  <progress 
                     className={`progress-bar ${getConfidenceClass(result.confidence)}`}
-                    role="progressbar" 
-                    style={{ width: `${result.confidence * 100}%` }}
+                    style={{ 
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                      borderRadius: 'inherit'
+                    }}
+                    value={result.confidence * 100}
+                    max="100"
                   >
                     {(result.confidence * 100).toFixed(1)}%
-                  </div>
+                  </progress>
                 </div>
               </div>
               <div className="mt-3">
@@ -149,8 +187,7 @@ const ClassificationResultPage = () => {
                   backgroundColor: 'var(--bs-gray-100)'
                 }}>
                   <i className="bi bi-info-circle me-1"></i>
-                  {result.confidence > 0.7 ? "Высокая уверенность" : 
-                   result.confidence > 0.4 ? "Средняя уверенность" : "Низкая уверенность"}
+                  {getConfidenceText(result.confidence)}
                 </span>
               </div>
             </div>
@@ -215,10 +252,10 @@ const ClassificationResultPage = () => {
         <button 
           onClick={handleMarkAsWrong}
           disabled={isUpdating}
-          className={`btn ${isWrong ? 'btn-success' : 'btn-warning'}`}
+          className={`btn ${getMarkAsWrongButtonClass(isWrong)}`}
         >
-          <i className={`bi ${isWrong ? 'bi-check-circle' : 'bi-exclamation-triangle'} me-2`}></i>
-          {isUpdating ? 'Обновление...' : (isWrong ? 'Помечено как неправильное' : 'Пометить как неправильное')}
+          <i className={`bi ${getMarkAsWrongButtonIcon(isWrong)} me-2`}></i>
+          {getMarkAsWrongButtonText(isUpdating, isWrong)}
         </button>
         <button 
           onClick={handleDelete}
@@ -226,7 +263,7 @@ const ClassificationResultPage = () => {
           className="btn btn-danger"
         >
           <i className="bi bi-trash me-2"></i>
-          {isDeleting ? 'Удаление...' : 'Удалить результаты'}
+          {getDeleteButtonText(isDeleting)}
         </button>
       </div>
     </div>

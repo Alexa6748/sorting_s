@@ -1,0 +1,3 @@
+frontend/src/pages/ClassificationUploadPage.js line 104
+<label className="form-label">Выберите изображение:</label>
+A form label must be associated with a control.

@@ -101,10 +101,11 @@ const ClassificationUploadPage = () => {
       
         <form onSubmit={handleSubmit} className="upload-form">
           <div className="mb-4">
-            <label className="form-label">Выберите изображение:</label>
+            <label htmlFor="image-upload" className="form-label">Выберите изображение:</label>
             
             {/* Область для перетаскивания */}
-            <div 
+            <button
+              type="button"
               className={`drop-area ${file ? 'has-file' : ''}`}
               onClick={() => fileInputRef.current.click()}
               style={{ 
@@ -114,7 +115,8 @@ const ClassificationUploadPage = () => {
                 padding: '20px',
                 textAlign: 'center',
                 backgroundColor: '#f8f9fa',
-                transition: 'all 0.3s'
+                transition: 'all 0.3s',
+                width: '100%'
               }}
             >
               {!file ? (
@@ -155,13 +157,14 @@ const ClassificationUploadPage = () => {
               
               <input
                 type="file"
+                id="image-upload"
                 ref={fileInputRef}
                 className="form-control"
                 accept="image/*"
                 onChange={handleFileChange}
                 style={{ display: 'none' }}
               />
-            </div>
+            </button>
           </div>
           
           <button 
@@ -171,7 +174,7 @@ const ClassificationUploadPage = () => {
           >
             {loading ? (
               <>
-                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                <output className="spinner-border spinner-border-sm me-2" aria-hidden="true"></output>
                 Обработка...
               </>
             ) : (

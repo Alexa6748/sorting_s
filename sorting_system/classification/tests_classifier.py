@@ -78,7 +78,8 @@ class ClassifierTests(TestCase):
         classifier.transform = mock_transform
         
         # Create a test numpy array image
-        test_image = np.random.randint(0, 255, (300, 300, 3), dtype=np.uint8)
+        rng = np.random.default_rng(42)
+        test_image = rng.integers(0, 255, (300, 300, 3), dtype=np.uint8)
         
         # Call preprocess_image method
         result = classifier.preprocess_image(test_image)
@@ -115,7 +116,8 @@ class ClassifierTests(TestCase):
         classifier.initialized = False
         
         # Create a test image
-        test_image = np.random.randint(0, 255, (300, 300, 3), dtype=np.uint8)
+        rng = np.random.default_rng(42)
+        test_image = rng.integers(0, 255, (300, 300, 3), dtype=np.uint8)
         
         # Call predict method
         class_name, confidence = classifier.predict(test_image)
@@ -146,7 +148,8 @@ class ClassifierTests(TestCase):
         mock_torch.max.return_value = (torch.tensor(0.4), torch.tensor(1))
         
         # Create a test image
-        test_image = np.random.randint(0, 255, (300, 300, 3), dtype=np.uint8)
+        rng = np.random.default_rng(42)
+        test_image = rng.integers(0, 255, (300, 300, 3), dtype=np.uint8)
         
         # Call predict method
         class_name, confidence = classifier.predict(test_image)
@@ -166,7 +169,8 @@ class ClassifierTests(TestCase):
         classifier.preprocess_image = MagicMock(side_effect=Exception("Preprocessing error"))
         
         # Create a test image
-        test_image = np.random.randint(0, 255, (300, 300, 3), dtype=np.uint8)
+        rng = np.random.default_rng(42)
+        test_image = rng.integers(0, 255, (300, 300, 3), dtype=np.uint8)
         
         # Call predict method
         class_name, confidence = classifier.predict(test_image)

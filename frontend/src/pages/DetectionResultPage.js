@@ -83,7 +83,7 @@ const DetectionResultPage = () => {
       <div className="d-md-none mt-3">
         <h4>Обнаруженные объекты</h4>
         {detections.map((detection, index) => (
-          <div key={index} className="card mb-2">
+          <div key={`${detection.class_name}-${detection.box.join('-')}-${index}`} className="card mb-2">
             <div className="card-body">
               <div className="row">
                 <div className="col-6">
@@ -118,7 +118,7 @@ const DetectionResultPage = () => {
             </thead>
             <tbody>
               {detections.map((detection, index) => (
-                <tr key={index}>
+                <tr key={`${detection.class_name}-${detection.box.join('-')}-${index}`}>
                   <td>{detection.class_name}</td>
                   <td>
                     <span className={`badge ${getConfidenceClass(detection.confidence)}`}>

@@ -269,10 +269,6 @@ class DetectObjectsView(APIView):
                 CURRENTLY_PROCESSING_DETECTIONS.dec()
                 
                 return Response(serializer.data, status=status.HTTP_200_OK)
-                # return Response(
-                #     {"error": "На изображении не обнаружено объектов"},
-                #     status=status.HTTP_400_BAD_REQUEST
-                # )
             
             # Рисуем результаты на изображении
             processed_image = detector.draw_detections(image.copy(), detections)

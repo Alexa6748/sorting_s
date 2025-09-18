@@ -173,4 +173,4 @@ class DetectorTests(TestCase):
         
         # Call predict method and verify it handles the error
         with self.assertRaises(Exception):
-            detections = detector.predict(test_image)
+            detector.predict(test_image)

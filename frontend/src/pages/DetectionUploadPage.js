@@ -10,7 +10,7 @@ const DetectionUploadPage = () => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile && selectedFile.type.startsWith('image/')) {
+    if (selectedFile?.type.startsWith('image/')) {
       setFile(selectedFile);
       setError('');
     } else {
@@ -102,7 +102,7 @@ const DetectionUploadPage = () => {
         >
           {loading ? (
             <>
-              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <output className="spinner-border spinner-border-sm me-2" aria-hidden="true"></output>
               Обнаруживаем объекты...
             </>
           ) : (
