@@ -88,14 +88,16 @@ jobs:
           DEBUG: True
 
       - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}
-        with:
-          args: >
-            -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
-            -Dsonar.token=${{ secrets.SONARQUBE_TOKEN }}
+        
+      - name: SonarQube Gate
+        uses: SonarSource/sonarqube-quality-gate-action@v1
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
 
   docker-compose-build:
     runs-on: ubuntu-latest
