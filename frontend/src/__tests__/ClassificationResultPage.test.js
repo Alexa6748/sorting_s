@@ -103,7 +103,7 @@ describe('ClassificationResultPage', () => {
     const classTypeElement = screen.getByText(/plastic/i);
     expect(classTypeElement).toBeInTheDocument();
     
-    const confidenceElement = screen.getByText(/85\.0%/i);
+    const confidenceElement = screen.getByText(/Высокая уверенность \(85\.0%\)/i);
     expect(confidenceElement).toBeInTheDocument();
   });
 

@@ -168,12 +168,11 @@ const ClassificationResultPage = () => {
                 </div>
               </div>
               <div className="mt-3">
-                <span className="badge rounded-pill px-3 py-2" style={{ 
-                  fontSize: '1rem',
-                  backgroundColor: 'var(--bs-gray-100)'
+                <span className={`badge rounded-pill px-3 py-2 ${getConfidenceClass(result.confidence)}`} style={{ 
+                  fontSize: '1rem'
                 }}>
                   <i className="bi bi-info-circle me-1"></i>
-                  {getConfidenceText(result.confidence)}
+                  {getConfidenceText(result.confidence)} ({(result.confidence * 100).toFixed(1)}%)
                 </span>
               </div>
             </div>
